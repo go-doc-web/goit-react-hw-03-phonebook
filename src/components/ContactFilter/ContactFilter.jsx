@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import css from './ContactFilter.module.css';
 
-const ContactFilter = ({ handlefilterChange }) => {
+const ContactFilter = ({ handlefilterChange, filter }) => {
   return (
     <div className="{css.wrapper}">
       <label className={css.titleFilter}>*Find contact by name</label>
@@ -11,6 +11,7 @@ const ContactFilter = ({ handlefilterChange }) => {
         type="text"
         name="filter"
         placeholder="Find me"
+        value={filter}
       />
     </div>
   );
