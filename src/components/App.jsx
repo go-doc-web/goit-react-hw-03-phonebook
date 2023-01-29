@@ -6,7 +6,8 @@ import ContactFilter from './ContactFilter/ContactFilter';
 import ContactsForm from './ContactsForm/ContactsForm';
 import ContactItem from './ContactsList/ContactItem/ContactItem';
 
-import contacts from './contacts';
+// import contacts from './contacts';
+import { save, load } from '../utilis/localStorage';
 
 import css from './App.module.css';
 
@@ -22,9 +23,26 @@ const styleApp = {
 
 class App extends Component {
   state = {
-    contacts: [...contacts],
+    contacts: [],
     filter: '',
   };
+
+  componentDidMount() {
+    // const contacts = JSON.parse(localStorage.getItem('my-contacts'));
+    const contacts = load('my-contacts');
+    if (contacts?.length) {
+      // contacts && contacts.length
+      this.setState({ contacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts.length !== contacts.length) {
+      save('my-contacts', contacts);
+    }
+    // localStorage.setItem('my-contacts', JSON.stringify(contacts));
+  }
 
   handlefilterChange = e => {
     this.setState({ filter: e.target.value });
@@ -75,6 +93,7 @@ class App extends Component {
     });
   };
   render() {
+    console.log('render');
     const { removeContact, handlefilterChange, addContact, getFilterContact } =
       this;
     const filterContacts = getFilterContact();
